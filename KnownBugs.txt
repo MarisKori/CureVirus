@@ -1,0 +1,3 @@
+- After cooking zombie blood, put it on the floor, then you can take it in inventory, otherwise it will disappear.
+- Illiterate can write.
+- Recipe names contain numbers. I don't know how to fix that. There should be accessible only one recipe in the game but they have the same name. Only english localization has this issue.
