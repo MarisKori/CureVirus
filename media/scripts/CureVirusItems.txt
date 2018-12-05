@@ -1,0 +1,2820 @@
+module CureVirus
+{
+	imports
+	{
+		Base
+	}
+	
+
+
+	
+	
+	
+	/********************** PART 0 ***********************/
+	
+	/* Start here */
+	recipe My Thoughts
+	{
+		Newspaper,
+		BookFirstAid1/BookFirstAid2,
+		Notebook/Journal,
+		keep Pencil/RedPen/BluePen/Pen,
+		
+		Result:CVMag00=1,
+		Time:300.0,
+		Category:Survivalist,
+		/*SkillRequired:Doctor=1,*/
+	}
+	item CVMag00
+	{
+		NumberOfPages	=	15,
+		Weight	=	0.5,
+		Type	=	Literature,
+		DisplayName	=	My Thoughts on the Apocalypse,
+		Icon	=	Notebook,
+		TeachedRecipes	=	Get Zombie Blood;Make Custom Research,
+		ReplaceOnUse	=	CVMag00,
+		Tooltip = Tooltip_CVMag00,
+	}	
+	
+	recipe Get Zombie Blood
+	{
+		keep CorpseMale/CorpseFemale,
+		keep Saw/HuntingKnife/KitchenKnife/Axe/AxeStone/Scissors,
+		Pot,
+		/*RippedSheets/RippedSheetsDirty,*/
+		
+		Result:CVZombieBlood=1,
+		Time:300.0,
+		
+		Category:Survivalist,
+		Sound:SliceMeat,
+		SkillRequired:Cooking=1,
+		NeedToBeLearn:true,
+	}
+	item CVZombieBlood
+	{
+		Weight	=	1.2,
+		Type	=	Food,
+		Icon = Pot_Water,
+		DisplayName	= Cooking Pot with Blood,
+		Tooltip = Tooltip_CVZombieBlood,
+		
+		HungerChange = -1,
+		ThirstChange = -5,
+		UnhappyChange	=	25,
+		StressChange = 0,
+		BoredomChange	=	-30,
+
+		Carbohydrates = 0,
+		Proteins = 9,
+		Lipids = 2,
+		Calories = 44,
+
+		IsCookable	=	TRUE,
+		DangerousUncooked	=	TRUE,
+		DaysFresh	=	3,
+		DaysTotallyRotten	=	6,
+		MinutesToCook	=	15,
+		MinutesToBurn	=	30,
+		/* ReplaceOnCooked = CureVirus.CVZombieBloodCooked, */
+		
+		ReplaceOnUse	=	Pot,
+		
+		CustomContextMenu = Drink,
+		CustomEatSound = PZ_DrinkingFromBottle,
+		ResizeWorldIcon = 1,
+		OnEat = CVDrinkBlood,
+		
+		UseDelta = 0.25,
+		CantBeFrozen = TRUE,
+
+		/*Poison = TRUE,
+		PoisonPower = 20,
+		PoisonDetectionLevel = 1,*/
+	}
+	item CVZombieBloodCooked
+	{
+		Weight	=	1.2,
+		Type	=	Food,
+		Icon = Pot_Water,
+		DisplayName	= Cooked Zombie Blood,
+		Tooltip = Tooltip_CVZombieBloodCooked,
+		
+		HungerChange = -1,
+		ThirstChange = -4,
+		UnhappyChange	=	20,
+		StressChange = 0,
+		BoredomChange	=	-30,
+
+		Carbohydrates = 0,
+		Proteins = 6,
+		Lipids = 1,
+		Calories = 33,
+
+		IsCookable	=	FALSE,
+		/* DaysFresh	=	3, */
+		/* DaysTotallyRotten	=	6, */
+		
+		ReplaceOnUse	=	Pot,
+		
+		CustomContextMenu = Drink,
+		CustomEatSound = PZ_DrinkingFromBottle,
+		ResizeWorldIcon = 1,
+		/*OnEat = CVDrinkBloodCooked,*/
+		
+		UseDelta = 0.25,
+		/* CantBeFrozen = TRUE, */
+		
+		/*Poison = TRUE,
+		PoisonPower = 20,
+		PoisonDetectionLevel = 1,*/
+	}
+	
+	recipe Make Custom Research
+	{
+		BookFirstAid3,
+		CVMag00,
+		Notebook/Journal/SheetPaper2,
+		keep Pencil/RedPen/BluePen/Pen,
+		keep CVZombieBlood,
+		
+		Result:CVMag0=1,
+		Time:300.0,
+		Category:Survivalist,
+		/*SkillRequired:Doctor=1,*/
+		NeedToBeLearn:true,
+		OnTest:MakeCustomResearch_OnTest,
+	}
+	item CVMag0
+	{
+		NumberOfPages	=	20,
+		Weight	=	0.6,
+		Type	=	Literature,
+		DisplayName	= My Research,
+		Icon	=	Notebook,
+		TeachedRecipes	=  Collect Information about Virus,
+		ReplaceOnUse	=	CVMag0,
+	}	
+	
+	recipe Collect Information about Virus
+	{
+		CVMag0,
+		CVMag1,
+		CVMag2,
+		CVMag3,
+		CVMag4,
+		CVMag6,
+		Newspaper=3,
+		BookFirstAid4,
+		BookFirstAid5,
+		BookCooking1/BookCooking2,
+		SheetPaper2=5,
+		keep Pencil/RedPen/BluePen/Pen,
+		Eraser,
+		
+		Result:CVVirusBook=1,
+		Time:900.0,
+		Category:Survivalist,
+		SkillRequired:Doctor=1,
+		NeedToBeLearn:true,
+	}
+	item CVVirusBook
+	{
+		NumberOfPages	=	490,
+		Weight	=	1.3,
+		Type	=	Literature,
+		DisplayName	=	Zombie Virus Handbook,
+		Icon	=	CVVirusBook,
+		TeachedRecipes	=  Blend Antiviral Drug;Extract Special Liver;Grind Up Pills;Prepare Secret Ingredient;Get Allergic Extract;Produce Detergent;Pickle Herbs,
+		ReplaceOnUse	=	CVVirusBook,
+	}	
+
+	recipe Blend Antiviral Drug
+	{
+		/* RippedSheets/RippedSheetsDirty, */
+		CVAnimalLiver,
+		CVWhitePowder,
+		CVSecretIngredient,
+		CVSecretBottle,
+		CVHerbalInfusion,
+		Cigarettes=35,
+		PopBottle/Pop/Pop2/Pop3,
+		keep Spoon/Fork/RollingPin/TreeBranch,
+		Pot, 
+		
+		Result:CVAntivirus=1,
+		Time:100.0,
+		Sound:PZ_FoodSwoosh,
+		OnCreate:CVAntivirus_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		OnTest:isFresh_OnTest,
+		SkillRequired:Doctor=2;,
+	}
+	recipe Blend Antiviral Drug 1
+	{
+		/* RippedSheets/RippedSheetsDirty,*/
+		CVAnimalLiver,
+		CVWhitePowder,
+		CVSecretIngredient,
+		CVSecretBottle,
+		CVHerbalInfusion,
+		Cigarettes=25,
+		Honey/Sugar,
+		keep Spoon/Fork/RollingPin/TreeBranch,
+		Pot,
+		
+		Result:CVAntivirus=1,
+		Time:100.0,
+		Sound:PZ_FoodSwoosh,
+		OnCreate:CVAntivirus_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		OnTest:isFresh_OnTest,
+		SkillRequired:Doctor=2;,
+	}
+	recipe Blend Antiviral Drug 2
+	{
+		/* RippedSheets/RippedSheetsDirty,*/
+		CVAnimalLiver,
+		CVWhitePowder,
+		CVSecretIngredient,
+		CVSecretBottle,
+		CVHerbalInfusion,
+		Cigarettes=25,
+		Cereal/OatsRaw,
+		keep Spoon/Fork/RollingPin/TreeBranch,
+		Pot,
+		
+		Result:CVAntivirus=1,
+		Time:100.0,
+		Sound:PZ_FoodSwoosh,
+		OnCreate:CVAntivirus_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		OnTest:isFresh_OnTest,
+		SkillRequired:Doctor=2;,
+	}
+	recipe Blend Antiviral Drug 3
+	{
+		/* RippedSheets/RippedSheetsDirty,*/
+		CVAnimalLiver,
+		CVWhitePowder,
+		CVSecretIngredient,
+		CVSecretBottle,
+		CVHerbalInfusion,
+		Cigarettes=10,
+		Vinegar,
+		keep Spoon/Fork/RollingPin/TreeBranch,
+		Pot,
+		
+		Result:CVAntivirus=1,
+		Time:100.0,
+		Sound:PZ_FoodSwoosh,
+		OnCreate:CVAntivirus_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		OnTest:isFresh_OnTest,
+		SkillRequired:Doctor=2;,
+	}
+
+	item CVAntivirus
+	{
+		Weight	=	4,
+		Type	=	Food,
+		Icon = CVAntivirus,
+		DisplayName	= Antiviral Drug,
+		Tooltip = Tooltip_CVAntivirus,
+		
+		HungerChange = -25,
+		ThirstChange = -10,
+		UnhappyChange	=	0,
+		StressChange = 0,
+		BoredomChange	=	-30,
+
+		Carbohydrates = 0,
+		Proteins = 0,
+		Lipids = 0,
+		Calories = 0,
+
+		/* IsCookable	=	TRUE, */
+		/*DangerousUncooked	=	TRUE,*/
+		DaysFresh	=	4,
+		DaysTotallyRotten	=	4,
+		/* MinutesToCook	=	15,
+		MinutesToBurn	=	30, */
+		/* ReplaceOnCooked = CureVirus.CVAntivirusCooked, */
+		
+		ReplaceOnUse	=	Pot,
+		
+		CustomContextMenu = Drink,
+		CustomEatSound = PZ_DrinkingFromBottle,
+		ResizeWorldIcon = 1,
+		OnEat = CVAntivirusEat,
+		
+		UseDelta = 0.25,
+		CantBeFrozen = TRUE,
+
+		/*Poison = TRUE,
+		PoisonPower = 80,
+		PoisonDetectionLevel = 1,*/
+	}
+	item CVAntivirusCooked
+	{
+		Weight	=	4,
+		Type	=	Food,
+		Icon = CVAntivirus,
+		DisplayName	= Placebo,
+		Tooltip = Tooltip_CVAntivirusCooked,
+		
+		HungerChange = -20,
+		ThirstChange = -8,
+		UnhappyChange	=	0,
+		StressChange = 0,
+		BoredomChange	=	-10,
+
+		Carbohydrates = 0,
+		Proteins = 0,
+		Lipids = 0,
+		Calories = 0,
+
+		DaysFresh	=	3,
+		DaysTotallyRotten	=	4,
+		
+		ReplaceOnUse	=	Pot,
+		
+		CustomContextMenu = Drink,
+		CustomEatSound = PZ_DrinkingFromBottle,
+		ResizeWorldIcon = 1,
+		/*OnEat = CVAntivirusEat,*/
+		
+		UseDelta = 0.25,
+		CantBeFrozen = TRUE,
+
+		/*Poison = TRUE,
+		PoisonPower = 80,
+		PoisonDetectionLevel = 1,*/
+	}
+	
+	/************************** PART 1 **************************/
+
+	item CVMag1
+	{
+		NumberOfPages	=	90,
+		Weight	=	0.2,
+		Type	=	Literature,
+		DisplayName	=	Blood Test of the Patient Zero,
+		Icon	=	Notebook,
+		TeachedRecipes	=	Extract Special Liver,
+		ReplaceOnUse	=	CVMag1,
+	}
+	recipe Extract Special Liver
+	{
+		/* RippedSheets/RippedSheetsDirty,*/
+		DeadMouse/DeadRat,
+		CVZombieBlood,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		keep Scissors,
+		keep Needle/SutureNeedle,
+		keep Tweezers,
+		
+		Result:CVAnimalLiver=1,
+		Sound:SliceMeat,
+		Time:200.0,
+		OnCreate:CVAnimalLiver_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;Trapping=2;,
+		OnTest:ExtractSpecialLiver_OnTest,
+	}
+	recipe Extract Special Liver 1
+	{
+		/* RippedSheets/RippedSheetsDirty,*/
+		DeadSquirrel/DeadRabbit,
+		CVZombieBlood,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		keep Scissors,
+		keep Needle/SutureNeedle,
+		keep Tweezers,
+		
+		Result:CVAnimalLiver=1,
+		Sound:SliceMeat,
+		Time:200.0,
+		OnCreate:CVAnimalLiver_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;Trapping=2;,
+		OnTest:ExtractSpecialLiver_OnTest,
+	}
+	recipe Extract Special Liver 2
+	{
+		/* RippedSheets/RippedSheetsDirty,*/
+		DeadBird,
+		CVZombieBlood,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		keep Scissors,
+		keep Needle/SutureNeedle,
+		keep Tweezers,
+		
+		Result:CVAnimalLiver=1,
+		Sound:SliceMeat,
+		Time:200.0,
+		OnCreate:CVAnimalLiver_OnCreate,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;Trapping=2;,
+		OnTest:ExtractSpecialLiver_OnTest,
+	}
+	item CVAnimalLiver
+	{
+		Weight	=	0.1,
+		Type	=	Food,
+		Icon = TZ_BaconBits,
+		DisplayName	= Liver of Small Animal,
+		Tooltip = Tooltip_CVAnimalLiver,
+		
+		HungerChange = -2,
+		ThirstChange = 0,
+		UnhappyChange	=	0,
+		StressChange = 0,
+		BoredomChange	=	0,
+
+		Carbohydrates = 0,
+		Proteins = 3,
+		Lipids = 1,
+		Calories = 10,
+
+		IsCookable	=	TRUE,
+		DangerousUncooked	=	TRUE,
+		DaysFresh	=	2,
+		DaysTotallyRotten	=	1,
+		MinutesToCook	=	15,
+		MinutesToBurn	=	30,
+		/*ReplaceOnCooked = CVZombieBloodCooked,*/
+		FoodType	=	Meat,
+
+		
+		EvolvedRecipe		=		Stew:1;Pie:1;Stir fry:1;Sandwich:1|Cooked;Burger:1;Salad:1|Cooked;Roasted Vegetables:1;RicePot:1;RicePan:1;PastaPot:1;PastaPan:1,
+
+		
+		/*ReplaceOnUse	=	Pot,*/
+		
+		/*CustomContextMenu = Drink,*/
+		/*CustomEatSound = PZ_DrinkingFromBottle,*/
+		/*ResizeWorldIcon = 1,*/
+		/*OnEat = CVDrinkBlood,*/
+		
+		/*UseDelta = 0.25,*/
+		/* CantBeFrozen = TRUE, */
+		
+		GoodHot = true,
+		BadCold = true,
+	}	
+	
+	/********************** PART 2 ************************/
+
+	item CVMag2
+	{
+		NumberOfPages	=	140,
+		NumberOfPages	=	62,
+		Weight	=	0.2,
+		Type	=	Literature,
+		DisplayName	=	Medical Research,
+		Icon	=	Notebook,
+		TeachedRecipes	=	Grind Up Pills,
+		ReplaceOnUse	=	CVMag2,
+	}
+	recipe Grind Up Pills
+	{
+		PillsVitamins=10,
+		PillsSleepingTablets=10,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 1
+	{
+		PillsVitamins=10,
+		Pills=10,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 2
+	{
+		PillsVitamins=10,
+		Antibiotics,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 3
+	{
+		PillsSleepingTablets=10,
+		Pills=10,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 4
+	{
+		PillsSleepingTablets=10,
+		Antibiotics,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 5
+	{
+		Pills=10,
+		Antibiotics,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 6
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		PillsVitamins=10,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 7
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		PillsSleepingTablets=10,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 8
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		Pills=10,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 9
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		Antibiotics,
+		Salt,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 10
+	{
+		PillsVitamins=10,
+		PillsSleepingTablets=10,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 11
+	{
+		PillsVitamins=10,
+		Pills=10,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 12
+	{
+		PillsVitamins=10,
+		Antibiotics,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 13
+	{
+		PillsSleepingTablets=10,
+		Pills=10,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 14
+	{
+		PillsSleepingTablets=10,
+		Antibiotics,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 15
+	{
+		Pills=10,
+		Antibiotics,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 16
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		PillsVitamins=10,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 17
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		PillsSleepingTablets=10,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 18
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		Pills=10,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+	recipe Grind Up Pills 19
+	{
+		PillsBeta=10,
+		PillsAntiDep=10,
+		Antibiotics,
+		Salt,
+		Flour,
+		keep MortarPestle,
+		
+		Result:CVWhitePowder=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=3;Cooking=1;,
+	}
+
+	item CVWhitePowder
+	{
+		Weight	=	0.2,
+		Type	=	Food,
+		ThirstChange	=	80,
+		/* UseDelta = 0.5, */
+		UseWhileEquipped	=           FALSE,
+		OnEat = CVWhitePowder_OnEat,
+		CustomContextMenu   =   Take,
+		DisplayName	=	White Powder,
+		Icon	=	CVWhitePowder,
+		Tooltip = Tooltip_CVWhitePowder,
+	}
+	item PillsCVWhitePowder
+	{
+		Weight	=	0.1,
+		Type	=	Drainable,
+		UseDelta = 0.2,
+		ThirstChange	=	1,
+		UseWhileEquipped	=           FALSE,
+		OnEat = CVWhitePowder_OnEat,
+		/* CustomContextMenu   =   Take, */
+		DisplayName	=	White Powder,
+		Icon	=	CVWhitePowder,
+		Tooltip = Tooltip_CVWhitePowder,
+	}	
+	
+	
+	/************************** PART 3 **************************/
+	
+	item CVMag3
+	{
+		NumberOfPages	=	29,
+		Weight	=	0.1,
+		Type	=	Literature,
+		DisplayName	=	Allergy Just Before Death,
+		Icon	=	Paper,
+		TeachedRecipes	=	Prepare Secret Ingredient;Get Allergic Extract,
+		ReplaceOnUse	=	CVMag3,
+	}
+	recipe Prepare Secret Ingredient
+	{
+		Apple/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 1
+	{
+		Banana/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 2
+	{
+		Cherry/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 3
+	{
+		Grapes/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 4
+	{
+		Peach/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 5
+	{
+		Pineapple/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 6
+	{
+		Avocado/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 7
+	{
+		Lettuce/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 8
+	{
+		Zucchini/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 9
+	{
+		Lemon/Orange/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 10
+	{
+		Watermelon/WatermelonSliced/WatermelonSmashed/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 11
+	{
+		BellPepper/CannedBellPepper/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 12
+	{
+		Corn/CannedCornOpen/Popcorn/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 13
+	{
+		Eggplant/CannedEggplant/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 14
+	{
+		Leek/CannedLeek/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 15
+	{
+		Onion/CannedChiliOpen/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 16
+	{
+		Peas/CannedPeasOpen/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 17
+	{
+		Tofu/DogfoodOpen/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 18
+	{
+		Cheese/Milk/Icecream/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 19
+	{
+		PeanutButter/Peanuts/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 20
+	{
+		Egg/WildEggs/CVAllergicExtract,
+		Yeast,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+
+	recipe Prepare Secret Ingredient 21
+	{
+		Apple/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 22
+	{
+		Banana/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 23
+	{
+		Cherry/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 24
+	{
+		Grapes/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 25
+	{
+		Peach/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 26
+	{
+		Pineapple/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 27
+	{
+		Avocado/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 28
+	{
+		Lettuce/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 29
+	{
+		Zucchini/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 30
+	{
+		Lemon/Orange/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 31
+	{
+		Watermelon/WatermelonSliced/WatermelonSmashed/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 32
+	{
+		BellPepper/CannedBellPepper/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 33
+	{
+		Corn/CannedCornOpen/Popcorn/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 34
+	{
+		Eggplant/CannedEggplant/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 35
+	{
+		Leek/CannedLeek/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 36
+	{
+		Onion/CannedChiliOpen/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 37
+	{
+		Peas/CannedPeasOpen/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 38
+	{
+		Tofu/DogfoodOpen/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 39
+	{
+		Cheese/Milk/Icecream/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 40
+	{
+		PeanutButter/Peanuts/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+	recipe Prepare Secret Ingredient 41
+	{
+		Egg/WildEggs/CVAllergicExtract,
+		Butter,
+		TinCanEmpty,
+		keep Fork,
+		keep KitchenKnife/HuntingKnife/ButterKnife,
+		
+		Result:CVSecretIngredient=1,
+		Time:100.0,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Cooking=1;,
+		OnTest:isFresh_OnTest,
+		OnCreate:CVSecretIngredient_OnCreate,
+	}
+
+	
+	item CVSecretIngredient
+	{
+		Weight	=	0.7,
+		Type	=	Normal,
+		DisplayName	=	Secret Ingredient,
+		Icon	=	CVSecretIngredient,
+		Tooltip = Tooltip_CVSecretIngredient,
+	}
+	
+	item CVAllergicExtract
+	{
+		Weight	=	0.4,
+		Type	=	Normal,
+		DisplayName	=	Allergic Extract,
+		Icon	=	JarWhite,
+		Tooltip = Tooltip_CVAllergicExtract,
+	}
+	recipe Get Allergic Extract
+	{
+		Apple,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 1
+	{
+		Banana,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 2
+	{
+		Cherry,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 3
+	{
+		Grapes,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 4
+	{
+		Peach,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 5
+	{
+		Pineapple,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 6
+	{
+		Avocado,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 7
+	{
+		Lettuce,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 8
+	{
+		Zucchini,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 9
+	{
+		Lemon/Orange,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 10
+	{
+		Watermelon/WatermelonSliced/WatermelonSmashed,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 11
+	{
+		BellPepper/CannedBellPepper,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 12
+	{
+		Corn/CannedCornOpen/Popcorn,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 13
+	{
+		Eggplant/CannedEggplant,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 14
+	{
+		Leek/CannedLeek,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 15
+	{
+		Onion/CannedChiliOpen,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 16
+	{
+		Peas/CannedPeasOpen,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 17
+	{
+		Tofu/DogfoodOpen,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 18
+	{
+		Cheese/Milk/Icecream,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 19
+	{
+		PeanutButter/Peanuts,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	recipe Get Allergic Extract 20
+	{
+		Egg/WildEggs,
+		EmptyJar,
+		JarLid,
+		Water=10,
+		RippedSheets=10,
+		CVPropyleneGlycol,
+		
+		Result:CVAllergicExtract=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=2;Cooking=6;,
+	}
+	
+	item CVPropyleneGlycol
+	{
+		Weight	=	0.3,
+		Type	=	Drainable,
+		UseDelta =	0.1,
+		DisplayName	=	Propylene Glycol,
+		Icon	=	CVPropyleneGlycol,
+		AlcoholPower = 1,
+		Tooltip = Tooltip_CVPropyleneGlycol,
+	}
+	
+	/**************************** PART 4 **************************/
+	
+	item CVMag4
+	{
+		NumberOfPages	=	47,
+		Weight	=	0.1,
+		Type	=	Literature,
+		DisplayName	=	Story of Dying in the Bathroom,
+		Icon	=	Paper,
+		TeachedRecipes	=	Produce Detergent;Toxic Rag,
+		ReplaceOnUse	=	CVMag4,
+	}
+	recipe Produce Detergent
+	{
+		Toothpaste,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 1
+	{
+		Lipstick/MakeupFoundation/MakeupEyeshadow,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 2
+	{
+		Woodglue/Glue,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 3
+	{
+		Hairspray,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 4
+	{
+		GunPowder=6,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 5
+	{
+		Toothpaste,
+		Soap2=6,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 6
+	{
+		Lipstick/MakeupFoundation/MakeupEyeshadow,
+		Soap2=6,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 7
+	{
+		Woodglue/Glue,
+		Soap2=6,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 8
+	{
+		Hairspray,
+		Soap2=6,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 9
+	{
+		GunPowder=6,
+		Soap2=6,
+		CleaningLiquid,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 10
+	{
+		Toothpaste,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 11
+	{
+		Lipstick/MakeupFoundation/MakeupEyeshadow,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 12
+	{
+		Woodglue/Glue,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 13
+	{
+		Hairspray,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 14
+	{
+		GunPowder=6,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 15
+	{
+		Toothpaste,
+		Soap2=6,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 16
+	{
+		Lipstick/MakeupFoundation/MakeupEyeshadow,
+		Soap2=6,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 17
+	{
+		Woodglue/Glue,
+		Soap2=6,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 18
+	{
+		Hairspray,
+		Soap2=6,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	recipe Produce Detergent 19
+	{
+		GunPowder=6,
+		Soap2=6,
+		Bleach,
+		WhiskeyEmpty/WineEmpty/WineEmpty2,
+		
+		Result:CVSecretBottle=1,
+		Time:50,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+	}
+	
+	item CVSecretBottle
+	{
+		Weight	=	0.4,
+		Type	=	Drainable,
+		UseDelta = 0.1,
+		ReplaceOnUse = WhiskeyEmpty,
+		DisplayName	=	Detergent,
+		Icon	=	WineEmpty,
+		Tooltip = Tooltip_CVSecretBottle,
+	}
+	
+	recipe Toxic Rag
+	{
+		CVSecretBottle=1,
+		AlcoholRippedSheets,
+		
+		Result:ToxicRippedSheets=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:false,
+	}
+	
+	/***************************** PART 6 ****************************/
+	
+	item CVMag6
+	{
+		NumberOfPages	=	42,
+		Weight	=	0.1,
+		Type	=	Literature,
+		DisplayName	=	Drunk Zombie Behavior,
+		Icon	=	Paper,
+		TeachedRecipes	=	Pickle Herbs,
+		ReplaceOnUse	=	CVMag6,
+	}
+	recipe Pickle Herbs
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 1
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 2
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 3
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 4
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 5
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 6
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Violets=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 7
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 8
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 9
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 10
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 11
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 12
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 13
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		GrapeLeaves=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 14
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 15
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 16
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 17
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 18
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 19
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 20
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Rosehips=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 21
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 22
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 23
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 24
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 25
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 26
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 27
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		BlackSage=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 28
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 29
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 30
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 31
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 32
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 33
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 34
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		CommonMallow=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 35
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 36
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 37
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 38
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 39
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 40
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 41
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		Ginseng=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 42
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		Broccoli=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 43
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		farming.Cabbage=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 44
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		Carrots=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 45
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		farming.Potato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 46
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		farming.RedRadish=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 47
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		farming.Strewberrie=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+	recipe Pickle Herbs 48
+	{
+		Perfume/Cologne/Disinfectant/WhiskeyFull/Wine2/Wine,
+		LemonGrass=15,
+		farming.Tomato=1,
+		
+		Result:CVHerbalInfusion=1,
+		Time:100,
+		Category:Survivalist,
+		NeedToBeLearn:true,
+		SkillRequired:Doctor=1;PlantScavenging=3;,
+		OnTest:isFresh_OnTest,
+	}
+
+	item CVHerbalInfusion
+	{
+		Weight	=	0.9,
+		Type	=	Drainable,
+		UseDelta	        =	        0.1,
+		UseWhileEquipped	=           FALSE,
+		AlcoholPower        =           20,
+		DisplayName	=	Herbal Infusion,
+		Icon	=	CVSecretBottle,
+		Tooltip = Tooltip_CVSecretBottle,
+	}
+	
+
+
+	
+}
+
+
+module Base
+{
+    item ToxicRippedSheets
+    {
+        CanBandage	=	TRUE,
+        Weight	=	0.05,
+        AlwaysWelcomeGift	=	TRUE,
+        Alcoholic	=	TRUE,
+        Type	=	Normal,
+        DisplayName	=	Toxic Rag,
+        ReplaceOnUse    =   RippedSheetsDirty,
+        Icon	=	Rag,
+        BandagePower    =   2,
+        /* Tooltip = Tooltip_SterilizedRag, */
+    }
+	item Perfume
+	{
+		Type				=			Drainable,
+		UseDelta			=			0.2,
+		UseWhileEquipped	=			FALSE,
+		DisplayName			=			Perfume,
+		Icon				=			Perfume1,
+		Weight				=			0.1,
+		AlcoholPower		=			1,
+	}
+	item Cologne
+	{
+		Type				=			Drainable,
+		UseDelta			=			0.25,
+		UseWhileEquipped	=			FALSE,
+		DisplayName			=			Cologne,
+		Icon				=			Cologne,
+		Weight				=			0.2,
+		AlcoholPower		=			1,
+	}
+	item TestItem
+	{
+		Type				=			Food,
+		UseDelta			=			0.1,
+		UseWhileEquipped	=			FALSE,
+		DisplayName			=			Test Item,
+		Icon				=			HotdogCrafted,
+		Weight				=			0.001,
+		OnEat = CVOnEatTestItem,
+		CustomContextMenu   =   Take,
+
+	}
+	item TestItem2
+	{
+		Type				=			Food,
+		UseDelta			=			0.1,
+		UseWhileEquipped	=			FALSE,
+		DisplayName			=			Test Item 2,
+		Icon				=			HotdogCrafted,
+		Weight				=			0.001,
+		OnEat = CVOnEatTestItem2,
+		CustomContextMenu   =   Take,
+
+	}
+}
+
+
