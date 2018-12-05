@@ -1,0 +1,28 @@
+IGUI_EN = {
+	ContextMenu_Annotation = "Annotation",
+
+
+	IGUI_ItemName_CVMag0 = "My Research",
+	IGUI_ItemName_CVMag0_Ann = "This is the first page of the book about the virus. I did a little research, but I need more information. I have neither the knowledge nor the experience. Too many difficult questions. Today I will go to find the answers.",
+	
+	IGUI_ItemName_CVMag00 = "My Thoughts on the Apocalypse",
+	IGUI_ItemName_CVMag00_Ann = "The situation is very serious. I went to hell! Need to do something! At first, I will try to explore the zombies from the inside... I need FRESH zombie and an oven.",
+	
+	IGUI_ItemName_CVVirusBook = "Zombie Virus Handbook",
+	IGUI_ItemName_CVVirusBook_Ann = "Complete illustrated instructions for curing the virus. Contains all recipes and a detailed description of each step.",
+	
+	IGUI_ItemName_CVMag1 = "Blood Test of the Patient Zero",
+	IGUI_ItemName_CVMag1_Ann = "We can't get to the lab with the equipment because of a horde of zombies. This is a complete blood report that will allow further research. Please complete our job. Remember that for research you need FRESH blood and T-killer lymphocytes.",
+	
+	IGUI_ItemName_CVMag2 = "Medical Research",
+	IGUI_ItemName_CVMag2_Ann = "We have isolated several zombies and are trying to give them different pills. Some pills affect very well. But we need more objects for research.",
+	
+	IGUI_ItemName_CVMag3 = "Allergy Just Before Death",
+	IGUI_ItemName_CVMag3_Ann = "I saw with my own eyes how a zombie went to the counter, ate something - and died... It was FRESH food!",
+	
+	IGUI_ItemName_CVMag4 = "Story of Dying in the Bathroom",
+	IGUI_ItemName_CVMag4_Ann = "After the bite, I feel bad for the third day. I locked myself in the bathroom and tasted various substances. It seems that some help to feel better.",
+	
+	IGUI_ItemName_CVMag6 = "Drunk Zombie Behavior",
+	IGUI_ItemName_CVMag6_Ann = "We continue to drink vodka. It seems that the virus does not affect us. .............. ......................... .................. I was wrong. It was only a temporary effect. We all will die...",
+}

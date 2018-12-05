@@ -1,0 +1,13 @@
+Tooltip_EN = {
+	Tooltip_CVMag00 = "",
+	Tooltip_CVAntivirus = "Drink carefully. It kills not only the virus, but you.",
+	Tooltip_CVAntivirusCooked = "Useless substance.",
+	Tooltip_CVZombieBlood = "Zombie blood with weak virus. Can be used in research.",
+	Tooltip_CVZombieBloodCooked = "Boiled zombie blood without virus.",
+	Tooltip_CVAnimalLiver = "This body part contains immune cells that can help against the virus.",
+	Tooltip_CVWhitePowder = "Strange white powder. Future medicine.",
+	Tooltip_CVSecretIngredient = "Many people would give everything for this secret when they were alive.",
+	Tooltip_CVAllergicExtract = "Contains a substance that causes allergies in zombies.",
+	Tooltip_CVSecretBottle = "Dangerous chemicals that cause poisoning.",
+	Tooltip_CVPropyleneGlycol = "Used for special pickling with drying and preserving chemical properties.",
+}
