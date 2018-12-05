@@ -1,0 +1,22 @@
+Items_EN = {
+	DisplayName_Antiviral_Drug = "",
+	DisplayName_Propylene_Glycol = "",
+	DisplayName_My_Thoughts_on_the_Apocalypse = "",
+	DisplayName_Cooking_Pot_with_Blood = "",
+	DisplayName_Cooked_Zombie_Blood = "",
+	DisplayName_My_Research = "",
+	DisplayName_Zombie_Virus_Handbook = "",
+	DisplayName_Placebo = "",
+	DisplayName_Blood_Test_of_the_Patient_Zero = "",
+	DisplayName_Liver_of_Small_Animal = "",
+	DisplayName_Medical_Research = "",
+	DisplayName_White_Powder = "",
+	DisplayName_Allergy_Just_Before_Death = "",
+	DisplayName_Secret_Ingredient = "",
+	DisplayName_Allergic_Extract = "",
+	DisplayName_Story_of_Dying_in_the_Bathroom = "",
+	DisplayName_Detergent = "", /* CVSecretBottle */
+	DisplayName_Drunk_Zombie_Behavior = "", /* CVMag6 */
+	DisplayName_Herbal_Infusion = "", /* CVHerbalInfusion */
+	DisplayName_Toxic_Rag = "", /* ToxicRippedSheets */
+}
